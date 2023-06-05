@@ -12,10 +12,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            // configure Common
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -28,6 +31,7 @@
           },
           "configurations": {
             "production": {
+              // configuration to ensure that parts of your application stay within size boundaries
               "budgets": [
                 {
                   "type": "initial",
@@ -48,16 +52,26 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              //  file replacements for specific build targets
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
         },
+        // configure the serve command to use the targeted build configuration
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular.io-example:build:production"
+              "browserTarget": "angular.io-example:build:production",
+              // add proxyConfig
+              "proxyConfig": "src/proxy.conf.json"
             },
             "development": {
               "browserTarget": "angular.io-example:build:development"
@@ -74,7 +88,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
