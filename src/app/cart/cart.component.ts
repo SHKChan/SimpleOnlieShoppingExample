@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CartService } from '../service/cart.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-cart',
@@ -9,7 +10,20 @@ import { CartService } from '../service/cart.service';
 export class CartComponent {
   items = this.cartService.getItems();
 
+  checkoutForm = this.forBuilder.group({
+    name: '',
+    address: ''
+  });
+
   constructor(
-    private cartService: CartService
+    private cartService: CartService,
+    private forBuilder: FormBuilder
   ) { }
+
+  onSubmit(): void {
+    // Process checkout data here
+    this.items = this.cartService.clearCart();
+    console.warn('Your order has been submitted', this.checkoutForm.value);
+    this.checkoutForm.reset();
+  }
 }
