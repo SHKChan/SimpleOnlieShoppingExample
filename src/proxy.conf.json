@@ -1,0 +1,15 @@
+{
+    "/api": {
+        // proxying to backend server
+        "target": "http://backend.server:port",
+        "secure": false,
+        // rewrite the URL path at run time
+        "pathRewrite": {
+            "^/api": ""
+        }
+        // access backend that is no on localhost
+        "changeOrigin": true
+    },
+    // enable log for proxy debug
+    "logLevel": "debug"
+}
